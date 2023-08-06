@@ -1,8 +1,8 @@
-import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import { CartPage, Home, Login, ProductList, Register } from '../pages';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { CartPage, Home, Login, OrderPage, ProductList, Register, DashboardPage } from '../pages';
 import { ProductDetail } from '../pages/ProductDetail';
 import { AnimatePresence } from 'framer-motion';
-import { ProtectedRoute } from './ProtectedRoute';
+// import { ProtectedRoute } from './ProtectedRoute';
 
 export const AllRoutes = () => {
   const location = useLocation();
@@ -17,7 +17,9 @@ export const AllRoutes = () => {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
 
-        <Route path="cart" element={token ? <CartPage />: <Navigate to="/login" />} />
+        <Route path="cart" element={token ? <CartPage /> : <Login />} />
+        <Route path="order-summary" element={token ? <OrderPage /> : <Login />} />
+        <Route path="dashboard" element={token ? <DashboardPage /> : <Login />} />
 
         {/* <Route
           path="cart"

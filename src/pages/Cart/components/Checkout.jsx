@@ -1,8 +1,37 @@
 import { motion } from 'framer-motion';
 import { useCart } from '../../../hooks';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createOrder, getUser } from '../../../services';
 
 export const Checkout = ({ setCheckOut }) => {
-  const { cartTotal } = useCart();
+  const { cartTotal, cartList, clearCart } = useCart();
+
+
+  const [user, setUser] = useState({});
+  const navigate = useNavigate();
+
+  const handleOrderSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await createOrder(cartList, cartTotal, user);
+      clearCart();
+
+      navigate('/order-summary', { state: { data: data, status: true } });
+    } catch (err) {
+      navigate('/order-summary', { state: { status: false } });
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getUser();
+      setUser(data);
+
+    };
+    fetchData();
+  }, []);
+
   return (
     <section>
       <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
@@ -45,7 +74,7 @@ export const Checkout = ({ setCheckOut }) => {
               <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
                 <i className="bi bi-credit-card mr-2"></i>CARD PAYMENT
               </h3>
-              <form className="space-y-6">
+              <form onSubmit={handleOrderSubmit} className="space-y-6">
                 <div>
                   <label
                     htmlFor="name"
@@ -58,7 +87,7 @@ export const Checkout = ({ setCheckOut }) => {
                     name="name"
                     id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:value-gray-400 dark:text-white"
-                    value="Sahil Lakha"
+                    value={user.name || ''}
                     disabled
                     required=""
                   />
@@ -75,7 +104,7 @@ export const Checkout = ({ setCheckOut }) => {
                     name="email"
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:value-gray-400 dark:text-white"
-                    value="sahil@example.com"
+                    value={user.email || ''}
                     disabled
                     required=""
                   />

@@ -1,12 +1,26 @@
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useCart } from '../../hooks';
+import { getUser, logout } from '../../services';
+import { useEffect, useState } from 'react';
 
-export const DropdownLoggedIn = ({setDropDown}) => {
+export const DropdownLoggedIn = ({ setDropDown }) => {
   const navigate = useNavigate();
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getUser();
+      data.email ? setUser(data) : handleLogout();
+    };
+    fetchData();
+  });
+
+  const { clearCart } = useCart();
   const handleLogout = () => {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('cvid');
+    logout();
+    clearCart();
     setDropDown(false);
     navigate('/');
   };
@@ -20,7 +34,7 @@ export const DropdownLoggedIn = ({setDropDown}) => {
       className="select-none	absolute top-14 right-0 z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600  backdrop-blur-sm bg-opacity-50 dark:bg-opacity-50"
     >
       <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
-        <div className="font-medium truncate">sahil@example.com</div>
+        <div className="font-medium truncate">{user.email}</div>
       </div>
       <ul
         className="py-1 text-sm text-gray-700 dark:text-gray-200"
@@ -28,7 +42,7 @@ export const DropdownLoggedIn = ({setDropDown}) => {
       >
         <li>
           <Link
-            onClick={()=>setDropDown(false)}
+            onClick={() => setDropDown(false)}
             to="/products"
             className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
           >
@@ -37,7 +51,7 @@ export const DropdownLoggedIn = ({setDropDown}) => {
         </li>
         <li>
           <Link
-            onClick={()=>setDropDown(false)}
+            onClick={() => setDropDown(false)}
             to="/dashboard"
             className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
           >

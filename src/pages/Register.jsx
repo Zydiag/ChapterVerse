@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { PasswordField } from './PasswordField';
+import { register } from '../services';
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -13,21 +14,8 @@ export const Register = () => {
       email: e.target.email.value,
       password: e.target.password.value,
     };
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(authDetail),
-    };
-    const res = await fetch('http://localhost:3000/register', requestOptions);
-    const data = await res.json();
+    const data = await register(authDetail);
     data.accessToken ? navigate('/products') : toast.error(data);
-    // console.log(data);
-
-    if(data.accessToken){
-      sessionStorage.setItem('token',JSON.stringify(data.accessToken))
-      //chapter verse id cvid
-      sessionStorage.setItem('cvid',JSON.stringify(data.user.id))
-    }
   };
 
   return (

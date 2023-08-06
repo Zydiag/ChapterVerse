@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { PasswordField } from './PasswordField';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
+import { login } from '../services';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -11,21 +12,8 @@ export const Login = () => {
       email: e.target.email.value,
       password: e.target.password.value,
     };
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(authDetail),
-    };
-    const response = await fetch('http://localhost:3000/login', requestOptions);
-    const data = await response.json();
-    console.log(data);
+    const data = await login(authDetail);
     data.accessToken ? navigate('/products') : toast.error(data);
-
-    if (data.accessToken) {
-      sessionStorage.setItem('token', JSON.stringify(data.accessToken));
-      //chapter verse id cvid
-      sessionStorage.setItem('cvid', JSON.stringify(data.user.id));
-    }
   };
 
   return (
@@ -33,7 +21,7 @@ export const Login = () => {
       // initial={{ x: window.innerWidth, opacity: 0 }}
       // animate={{ x: 0, opacity: 1 }}
       // transition={{ type: 'linear', delay: 0.2 }}
-      // exit={{ x: window.innerWidth,position: 'absolute', transition: { type: 'linear' } }}
+      exit={{ x: window.innerWidth, transition: { type: 'linear' } }}
     >
       <section>
         <p className="text-2xl text-center font-semibold dark:text-slate-100 my-10 underline underline-offset-8">

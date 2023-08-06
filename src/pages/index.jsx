@@ -1,7 +1,10 @@
-export { Home } from './Home/Home'
-export { ProductList } from './Products/ProductList'
+export { Home } from './Home/Home';
+export { ProductList } from './Products/ProductList';
 
-export { CartPage } from './Cart/CartPage'
+export { CartPage } from './Cart/CartPage';
 
-export { Login } from './Login'
-export { Register } from './Register'
+export { Login } from './Login';
+export { Register } from './Register';
+
+export { OrderPage } from './Order/OrderPage';
+export { DashboardPage } from './Dashboard/DashboardPage';

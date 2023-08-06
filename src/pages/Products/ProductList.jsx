@@ -1,36 +1,36 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useFetch, useFilter, useTitle } from '../../hooks';
+import { useFilter, useTitle } from '../../hooks';
 
 import { ProductCard } from '../../components';
 import { FilterBar } from './components/FilterBar';
 
 import { AnimatePresence, motion } from 'framer-motion';
+import { getList } from '../../services';
 
 export const ProductList = () => {
   const search = useLocation().search;
   const searchTerm = new URLSearchParams(search).get('q');
 
-  const { data } = useFetch({
-    url: `/products?name_like=${searchTerm ? searchTerm : ''}`,
-  });
   const [show, setShow] = useState(false);
   useTitle('Explore eBooks');
 
-  
+  const { productList, initProductList } = useFilter();
 
-  const { productList,initProductList } = useFilter();
-  useEffect(()=>{
-    initProductList(data);
-  },[data,initProductList]);
-  // */ console.log(productList)
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await getList(searchTerm);
+      initProductList(data);
+    };
+    fetchProducts();
+  }, [initProductList, searchTerm]);
 
   return (
     <motion.main
       // initial={{ x: window.innerWidth, opacity: 0 }}
       // animate={{ x: 0, opacity: 1 }}
       // transition={{ type:'linear', delay: 0.2 }}
-      // exit={{ x: window.innerWidth, transition: { type: 'linear' } }}
+      exit={{ x: window.innerWidth, transition: { type: 'linear' } }}
       // className="bg-rose-300 origin-bottom"
     >
       <section className="my-5">
