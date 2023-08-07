@@ -11,7 +11,7 @@ import { ScrollToTop } from './components';
 import { FilterContextProvider, CartContextProvider } from './context';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <BrowserRouter>
       <CartContextProvider>
         <FilterContextProvider>
@@ -27,5 +27,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </FilterContextProvider>
       </CartContextProvider>
     </BrowserRouter>
-  // </React.StrictMode>
+  </React.StrictMode>
 );

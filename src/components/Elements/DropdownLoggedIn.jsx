@@ -3,32 +3,33 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useCart } from '../../hooks';
 import { getUser, logout } from '../../services';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 export const DropdownLoggedIn = ({ setDropDown }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
+  const { clearCart } = useCart();
+
+  const handleLogout = useCallback(() => {
+    logout();
+    clearCart();
+    setDropDown(false);
+    navigate('/');
+  }, [clearCart, navigate, setDropDown]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getUser();
-        data.email ? setUser(data) : handleLogout();
+        // data.email ? setUser(data) : handleLogout();
+        setUser(data);
       } catch (error) {
         toast.error(error.message);
       }
     };
     fetchData();
-  });
-
-  const { clearCart } = useCart();
-  const handleLogout = () => {
-    logout();
-    clearCart();
-    setDropDown(false);
-    navigate('/');
-  };
+  }, []);
   return (
     <motion.div
       initial={{ y: -10, opacity: 0 }}

@@ -36,7 +36,6 @@ export const FilterContextProvider = ({ children }) => {
   const sortBy = useCallback(
     (products) => {
       if (state.sortBy === 'LowToHigh') {
-        console.log('sorted')
         return products.sort((a, b) => Number(a.price) - Number(b.price));
       } else if (state.sortBy === 'HighToLow') {
         return products.sort((a, b) => Number(b.price) - Number(a.price));

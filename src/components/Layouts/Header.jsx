@@ -2,22 +2,14 @@ import { Link } from 'react-router-dom';
 import { Search } from '../Sections/Search';
 import logo from '../../assets/logo2.png';
 
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { DropdownLoggedOut, DropdownLoggedIn } from '../../components';
 import { useCart } from '../../hooks';
 
 export const Header = () => {
+  const { cartList } = useCart();
 
-  const {cartList} = useCart();
-  
-  
   const [darkMode, setDarkMode] = useState(
     JSON.parse(localStorage.getItem('darkMode')) || false
   );
@@ -53,39 +45,27 @@ export const Header = () => {
               </span>
             </div>
           </Link>
-          <div className=" overflow-hidden flex items-center p-1">
-            {darkMode ? (
-              <span>
-                <LightModeOutlinedIcon
-                  onClick={() => setDarkMode(!darkMode)}
-                  className="dark:text-white dark:hover:text-amber-200 text-xl text-gray-700 mr-5 cursor-pointer hover:text-black-900 text-center"
-                />
-              </span>
-            ) : (
-              <span>
-                <DarkModeOutlinedIcon
-                  onClick={() => setDarkMode(!darkMode)}
-                  className="dark:text-white text-xl text-gray-700 mr-5 cursor-pointer hover:text-gray-900"
-                />
-              </span>
-            )}
-            <span>
-              <SearchIcon
-                onClick={() => setShowSearch(!showSearch)}
-                className="dark:text-white cursor-pointer text-xl text-gray-700 mr-5 hover:text-gray-900"
-              />
-            </span>
-            <Link to="/cart">
-              <span className="relative">
-                <ShoppingCartOutlinedIcon className="dark:text-white cursor-pointer text-xl text-gray-700 mr-5 relative hover:text-gray-900" />
+
+          <div className="flex items-center relative">
+            <span
+              onClick={() => setDarkMode(!darkMode)}
+              className="cursor-pointer text-xl text-gray-700 dark:text-white mr-5 bi bi-gear-wide-connected"
+            ></span>
+            <span
+              onClick={() => setShowSearch(!showSearch)}
+              className="cursor-pointer text-xl text-gray-700 dark:text-white mr-5 bi bi-search"
+            ></span>
+            <Link to="/cart" className="text-gray-700 dark:text-white mr-5">
+              <span className="text-2xl bi bi-cart-fill relative">
                 <span className="text-white text-sm absolute -top-1 left-2.5 bg-rose-500 px-1 rounded-full ">
                   {cartList.length}
                 </span>
               </span>
             </Link>
-            <span onClick={() => setDropDown(!dropDown)} className="">
-              <AccountCircleOutlinedIcon className="dark:text-white cursor-pointer text-xl text-gray-700 mr-5 hover:text-gray-900" />
-            </span>
+            <span
+              onClick={() => setDropDown(!dropDown)}
+              className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 dark:text-white"
+            ></span>
             <AnimatePresence>
               {dropDown &&
                 (token ? (

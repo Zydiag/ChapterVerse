@@ -16,7 +16,7 @@ export const getUser = async () => {
   };
 
   const response = await fetch(
-    `http://localhost:3000/600/users/${browserData.cvid}`,
+    `${import.meta.env.VITE_HOST}/600/users/${browserData.cvid ? browserData.cvid : ''}`,
     requestOptions
   );
   if (!response.ok) {
@@ -36,7 +36,7 @@ export const getUserOrders = async () => {
     },
   };
   const response = await fetch(
-    `http://localhost:3000/660/orders?user.id=${browserData.cvid}`,
+    `${import.meta.env.VITE_HOST}/660/orders?user.id=${browserData.cvid ? browserData.cvid : ''}`,
     requestOptions
   );
   if (!response.ok) {
@@ -67,7 +67,7 @@ export const createOrder = async (cartList, cartTotal, user) => {
     body: JSON.stringify(order),
   };
   const response = await fetch(
-    `http://localhost:3000/660/orders`,
+    `${import.meta.env.VITE_HOST}/660/orders`,
     requestOptions
   );
   if (!response.ok) {

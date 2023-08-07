@@ -1,6 +1,6 @@
 export const getList = async (searchTerm) => {
   const res = await fetch(
-    `http://localhost:3000/444/products?name_like=${
+    `${import.meta.env.VITE_HOST}/444/products?name_like=${
       searchTerm ? searchTerm : ''
     }`
   );
@@ -12,7 +12,7 @@ export const getList = async (searchTerm) => {
   return data;
 };
 export const getProduct = async (id) => {
-  const res = await fetch(`http://localhost:3000/444/products/${id}`);
+  const res = await fetch(`${import.meta.env.VITE_HOST}/444/products/${id}`);
   if (!res.ok) {
     throw { message: res.statusText, status: res.status };
   }
@@ -20,7 +20,7 @@ export const getProduct = async (id) => {
   return data;
 };
 export const getFeaturedList = async () => {
-  const res = await fetch(`http://localhost:3000/444/featured_products`);
+  const res = await fetch(`${import.meta.env.VITE_HOST}/444/featured_products`);
   if (!res.ok) {
     throw { message: res.statusText, status: res.status };
   }
