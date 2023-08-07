@@ -5,7 +5,7 @@ export const Faq = () => {
   const faqs = [
     {
       id: 1,
-      question: 'Why should I use CodeBook?',
+      question: 'Why should I use ChapterVerse?',
       answer:
         'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus earum dicta nesciunt, nulla alias consequuntur cumque incidunt saepe mollitia esse! Magni praesentium delectus excepturi nostrum illo repellendus cum eius neque, aperiam dolores quaerat quis dolore magnam doloremque minus sint nemo qui necessitatibus at. Perspiciatis, corrupti cum labore quos odio porro!',
     },

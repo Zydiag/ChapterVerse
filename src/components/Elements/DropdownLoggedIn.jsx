@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useCart } from '../../hooks';
 import { getUser, logout } from '../../services';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export const DropdownLoggedIn = ({ setDropDown }) => {
   const navigate = useNavigate();
@@ -11,8 +12,12 @@ export const DropdownLoggedIn = ({ setDropDown }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getUser();
-      data.email ? setUser(data) : handleLogout();
+      try {
+        const data = await getUser();
+        data.email ? setUser(data) : handleLogout();
+      } catch (error) {
+        toast.error(error.message);
+      }
     };
     fetchData();
   });

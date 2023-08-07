@@ -2,21 +2,24 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { PasswordField } from './PasswordField';
 import { register } from '../services';
-import { useTitle } from '../hooks'
+import { useTitle } from '../hooks';
 
 export const Register = () => {
   const navigate = useNavigate();
-  useTitle('Register')
+  useTitle('Register');
   const handleRegister = async (e) => {
-    // toast.success('sahil')
     e.preventDefault();
-    const authDetail = {
-      name: e.target.name.value,
-      email: e.target.email.value,
-      password: e.target.password.value,
-    };
-    const data = await register(authDetail);
-    data.accessToken ? navigate('/products') : toast.error(data);
+    try {
+      const authDetail = {
+        name: e.target.name.value,
+        email: e.target.email.value,
+        password: e.target.password.value,
+      };
+      const data = await register(authDetail);
+      data.accessToken ? navigate('/products') : toast.error(data);
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (

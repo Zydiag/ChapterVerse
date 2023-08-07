@@ -3,10 +3,10 @@ import { useCart } from '../../../hooks';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createOrder, getUser } from '../../../services';
+import { toast } from 'react-toastify';
 
 export const Checkout = ({ setCheckOut }) => {
   const { cartTotal, cartList, clearCart } = useCart();
-
 
   const [user, setUser] = useState({});
   const navigate = useNavigate();
@@ -19,15 +19,19 @@ export const Checkout = ({ setCheckOut }) => {
 
       navigate('/order-summary', { state: { data: data, status: true } });
     } catch (err) {
+      toast.error(err.message);
       navigate('/order-summary', { state: { status: false } });
     }
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getUser();
-      setUser(data);
-
+      try {
+        const data = await getUser();
+        setUser(data);
+      } catch (error) {
+        toast.error(error.message);
+      }
     };
     fetchData();
   }, []);

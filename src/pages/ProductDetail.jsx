@@ -4,6 +4,7 @@ import { useTitle } from '../hooks/useTitle';
 import { useCart } from '../hooks';
 import { useEffect, useState } from 'react';
 import { getProduct } from '../services';
+import { toast } from 'react-toastify';
 export const ProductDetail = () => {
   const { cartList, addToCart, removeFromCart } = useCart();
   const [inCart, setInCart] = useState(false);
@@ -13,12 +14,19 @@ export const ProductDetail = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getProduct(id);
-      setProduct(data)
-      setInCart(cartList.find((item) => item.id === product?.id));
+      try {
+        const data = await getProduct(id);
+        setProduct(data);
+      } catch (error) {
+        toast.error(error.message);
+      }
     };
     fetchData();
-  }, [id, cartList, product?.id]);
+  }, [id]);
+  
+  useEffect(() => {
+    setInCart(cartList.find((item) => item.id === product?.id));
+  }, [cartList, product?.id]);
 
   useTitle(product?.name);
   return (

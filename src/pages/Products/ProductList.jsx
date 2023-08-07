@@ -7,6 +7,7 @@ import { FilterBar } from './components/FilterBar';
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { getList } from '../../services';
+import { toast } from 'react-toastify';
 
 export const ProductList = () => {
   const search = useLocation().search;
@@ -19,8 +20,13 @@ export const ProductList = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const data = await getList(searchTerm);
-      initProductList(data);
+      try {
+        const data = await getList(searchTerm);
+        initProductList(data);
+
+      } catch (error) {
+        toast.error(error.message)
+      }
     };
     fetchProducts();
   }, [initProductList, searchTerm]);
