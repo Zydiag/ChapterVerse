@@ -1,8 +1,16 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { CartPage, Home, Login, OrderPage, ProductList, Register, DashboardPage } from '../pages';
+import {
+  CartPage,
+  Home,
+  Login,
+  OrderPage,
+  ProductList,
+  Register,
+  DashboardPage,
+  PageNotFound,
+} from '../pages';
 import { ProductDetail } from '../pages/ProductDetail';
 import { AnimatePresence } from 'framer-motion';
-// import { ProtectedRoute } from './ProtectedRoute';
 
 export const AllRoutes = () => {
   const location = useLocation();
@@ -18,17 +26,16 @@ export const AllRoutes = () => {
         <Route path="register" element={<Register />} />
 
         <Route path="cart" element={token ? <CartPage /> : <Login />} />
-        <Route path="order-summary" element={token ? <OrderPage /> : <Login />} />
-        <Route path="dashboard" element={token ? <DashboardPage /> : <Login />} />
+        <Route
+          path="order-summary"
+          element={token ? <OrderPage /> : <Login />}
+        />
+        <Route
+          path="dashboard"
+          element={token ? <DashboardPage /> : <Login />}
+        />
 
-        {/* <Route
-          path="cart"
-          element={
-            <ProtectedRoute>
-              <CartPage />
-            </ProtectedRoute>
-          }
-        /> */}
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </AnimatePresence>
   );

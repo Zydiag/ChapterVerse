@@ -3,9 +3,12 @@ import { PasswordField } from './PasswordField';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
 import { login } from '../services';
+import { useTitle } from '../hooks'
 
 export const Login = () => {
   const navigate = useNavigate();
+  useTitle('Login')
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     const authDetail = {

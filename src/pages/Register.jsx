@@ -2,10 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { PasswordField } from './PasswordField';
 import { register } from '../services';
+import { useTitle } from '../hooks'
 
 export const Register = () => {
   const navigate = useNavigate();
-
+  useTitle('Register')
   const handleRegister = async (e) => {
     // toast.success('sahil')
     e.preventDefault();

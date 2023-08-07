@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { DashboardCard } from './components/DashboardCard';
 import { DashboardEmpty } from './components/DashboardEmpty';
 import { getUserOrders } from '../../services';
+import { useTitle } from '../../hooks';
 
 export const DashboardPage = () => {
   const [orders, setOrders] = useState([]);
   const token = JSON.parse(sessionStorage.getItem('token'));
   const cvid = JSON.parse(sessionStorage.getItem('cvid'));
+  useTitle('Dashboard');
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -23,13 +25,9 @@ export const DashboardPage = () => {
         </p>
       </section>
       <section>
-      
         {orders.map((order) => {
-          // console.log(order)
-          return (<DashboardCard key={order.id} order={order} />)
+          return <DashboardCard key={order.id} order={order} />;
         })}
-        {/* {console.log(orders)} */}
-
       </section>
 
       <section>{!orders.length && <DashboardEmpty />}</section>
