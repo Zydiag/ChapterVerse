@@ -4,10 +4,13 @@ import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
 import { login } from '../services';
 import { useTitle } from '../hooks';
+import { useRef } from 'react';
 
 export const Login = () => {
   const navigate = useNavigate();
   useTitle('Login');
+  const email = useRef();
+  const password = useRef();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,6 +23,20 @@ export const Login = () => {
       data.accessToken ? navigate('/products') : toast.error(data);
     } catch (error) {
       toast.error(error.message);
+    }
+  };
+  const handleLoginGuest = async () => {
+    email.current.value = 'user@example.com';
+    password.current.value = 'username';
+    try {
+      const authDetail = {
+        email: email.current.value,
+        password: password.current.value,
+      };
+      const data = await login(authDetail);
+      data.accessToken ? navigate('/products') : toast.error(data);
+    } catch (err) {
+      toast.error(err.message);
     }
   };
 
@@ -46,6 +63,7 @@ export const Login = () => {
           <input
             type="email"
             id="email"
+            ref={email}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="someone@example.com"
             required
@@ -53,7 +71,7 @@ export const Login = () => {
           />
         </div>
         <div className="mb-6">
-          <PasswordField value={'Password'} />
+          <PasswordField newRef={password} value={'Password'} />
         </div>
         <button
           type="submit"
@@ -62,7 +80,12 @@ export const Login = () => {
           Log In
         </button>
       </form>
-      {/* <button className="mt-3 cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login As Guest</button> */}
+      <button
+        onClick={handleLoginGuest}
+        className="mt-3 cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        Login As Guest
+      </button>
     </motion.main>
   );
 };
